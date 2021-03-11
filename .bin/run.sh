@@ -1,13 +1,17 @@
-VSCODE_APP_EDITION="Visual Studio Code"
+VSCODE_APP_EDITION="code"
 
 if [ $vscodeEdition == 'code-insiders' ]
 then
-  VSCODE_APP_EDITION="Visual Studio Code - Insiders"
+  VSCODE_APP_EDITION="code-insiders"
 fi
 
 if [ $vscodeEdition == 'codium' ]
 then
-  VSCODE_APP_EDITION="VSCodium"
+  VSCODE_APP_EDITION="codium"
 fi
 
-open -a "${VSCODE_APP_EDITION}" "$1"
+if [[ $1 == *"vscode-remote"* ]]; then
+  /usr/local/bin/$VSCODE_APP_EDITION --folder-uri "$1"
+else
+  /usr/local/bin/$VSCODE_APP_EDITION "$1"
+fi

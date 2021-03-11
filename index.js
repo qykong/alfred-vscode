@@ -3,14 +3,16 @@ const utils = require('./lib/utils');
 
 (async () => {
 
-  const file = utils.getProjectFilePath();
+  const files = utils.getProjectFilePath();
 
-  const projects = await utils.fetch(file, {
-    transform: utils.parseProjects,
-  });
-
+  const projects = await Promise.all(files.map(file => {
+    return utils.fetch(file, {
+      transform: utils.parseProjects,
+    })
+  }));
+  const projects2 = [].concat.apply([], projects)
   const matchedProjects = utils.inputMatchesData(
-    projects,
+    projects2,
     alfy.input,
     ['name', 'group'],
   )
